@@ -1,7 +1,7 @@
 # liujunguang.github.io
 
 ## Description
-记录技术博客
+技术博客
 
 ## Development
 
@@ -16,3 +16,4 @@ npm install
 
 ### 2. 编辑、调试
 // TODO: hexo g hexo d
+// hexo clean && hexo deploy
