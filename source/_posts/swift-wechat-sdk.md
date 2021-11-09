@@ -60,4 +60,4 @@ func application(_ application: UIApplication, continue userActivity:
 
 我就是卡在这个问题上，一直授权登录，获取不到用户信息
 
-查资料的时候看到很多人遇到类似的问题，请注意continue的重新实现方式，像我上面这样应该就没问题
+查资料的时候看到很多人遇到类似的问题，请注意continue的重新实现方式，像我上面这样应该就没问题。
