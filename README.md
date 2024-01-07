@@ -39,3 +39,7 @@ hexo s
 ```shell script
 hexo clean && hexo d
 ```
+
+// TODO: 补全整个流程，免得时间长了又忘记，记在笔记里
+// TODO: README.md 里记录日常操作
+// TODO: 等年底时间多了再搞，可以先在 csdn 上搞
