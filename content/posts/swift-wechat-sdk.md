@@ -1,7 +1,7 @@
 +++
 title = 'Swift Wechat Sdk'
 date = 2024-01-14T05:15:52+08:00
-draft = true
+draft = false
 +++
 
 ## 关于 Universal Links

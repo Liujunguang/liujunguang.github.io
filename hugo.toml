@@ -60,7 +60,7 @@ safari_pinned_tab = "<link / abs url>"
 
 [params.profileMode]
 # needs to be explicitly set
-enabled = true
+enabled = false
 title = "ExampleSite"
 subtitle = "This is subtitle"
 imageUrl = "<img location>"
