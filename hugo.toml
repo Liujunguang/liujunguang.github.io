@@ -37,7 +37,7 @@ ShowRssButtonInSectionTermList = true
 UseHugoToc = true
 disableSpecial1stPost = false
 disableScrollToTop = false
-comments = true
+comments = false
 hidemeta = false
 hideSummary = false
 showtoc = true
@@ -112,11 +112,11 @@ hiddenInList = true
 hiddenInSingle = true
 
 [params.editPost]
-URL = "https://github.com/<path_to_repo>/content"
+#URL = "https://github.com/<path_to_repo>/content"
 # edit text
-Text = "Suggest Changes"
+#Text = "Suggest Changes"
 # to append file path to Edit link
-appendFilePath = true
+#appendFilePath = true
 
 # for search
 # https://fusejs.io/api/options.html
