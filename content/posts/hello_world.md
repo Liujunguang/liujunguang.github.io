@@ -2,7 +2,7 @@
 title = 'Hello_world'
 date = 2024-01-14T02:59:55+08:00
 draft = true
-weight: 1
+weight = 1
 +++
 
 我觉得秘密至少分为两种
