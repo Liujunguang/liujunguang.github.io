@@ -9,6 +9,7 @@ buildDrafts = false
 buildFuture = false
 buildExpired = false
 googleAnalytics = "UA-123-45"
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses = true
 
 [minify]
@@ -59,7 +60,7 @@ safari_pinned_tab = "<link / abs url>"
 
 [params.profileMode]
 # needs to be explicitly set
-enabled = false
+enabled = true
 title = "ExampleSite"
 subtitle = "This is subtitle"
 imageUrl = "<img location>"
@@ -146,9 +147,6 @@ identifier = "wiki"
 name = "WiKi"
 url = "https://github.com/Liujunguang/liujunguang.github.io/wiki"
 weight = 30
-
-# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
-pygmentsUseClasses = true
 
 [markup.highlight]
 noClasses = false
