@@ -131,7 +131,7 @@ minMatchCharLength = 0
 keys = [ "title", "permalink", "summary", "content" ]
 
 [params.artalk]
-server = 'https://ljg.cool/artalk/'
+server = 'https://ljg.cool/artalk'
 site = 'https://liujunguang.github.io/'
 
 [[menu.main]]
