@@ -1,18 +1,20 @@
-<!--<link href="/lib/artalk/Artalk.css" rel="stylesheet">-->
-<link href="{{ $.Site.Params.artalk.server }}/dist/Artalk.css" rel="stylesheet">
-<!--<script src="/lib/artalk/Artalk.js"></script>-->
-<script src="{{ $.Site.Params.artalk.server }}/dist/Artalk.js"></script>
+<link href="/lib/artalk/Artalk.css" rel="stylesheet">
+<script src="/lib/artalk/Artalk.js"></script>
+<!--{{ $artalkCSS := resources.Get "/lib/artalk/Artalk.css" }}-->
+<!--{{ $artalkJS := resources.Get "/lib/artalk/Artalk.js" }}-->
+<!--<link href="{{ $artalkCSS.Permalink }}" rel="stylesheet">-->
+<!--<script src="{{ $artalkJS.Permalink }}"></script>-->
 
 <!-- Artalk -->
 <div id="Comments"></div>
 
 <script>
-  Artalk.init({
-    el:        '#Comments',
-    pageKey:   '{{ .Permalink }}',
-    pageTitle: '{{ .Title }}',
-    server:    '{{ $.Site.Params.artalk.server }}',
-    site:      '{{ $.Site.Params.artalk.site }}',
-    // ...你的其他配置
-  })
+    Artalk.init({
+        el:        '#Comments',
+        pageKey:   '{{ .Permalink }}',
+        pageTitle: '{{ .Title }}',
+        server:    '{{ $.Site.Params.artalk.server }}',
+        site:      '{{ $.Site.Params.artalk.site }}',
+        // ...你的其他配置
+    })
 </script>
