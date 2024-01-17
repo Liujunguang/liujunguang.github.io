@@ -2,6 +2,8 @@ baseURL = 'https://liujunguang.github.io/'
 languageCode = 'en-us'
 title = 'Liu Junguang'
 theme = 'PaperMod'
+# 添加中文支持，否则字数统计不准
+hasCJKLanguage = true
 
 # 以下是官方文档中贴出来的配置
 # ====================
@@ -35,8 +37,6 @@ ShowPostNavLinks = true
 ShowBreadCrumbs = true
 ShowCodeCopyButtons = true
 ShowWordCount = true
-# 添加中文支持，否则字数统计不准
-hasCJKLanguage = true
 ShowRssButtonInSectionTermList = true
 UseHugoToc = true
 disableSpecial1stPost = false
@@ -162,3 +162,8 @@ noClasses = false
 #guessSyntax = true
 #lineNos = true
 #style = "monokai"
+
+[markup.goldmark.renderer]
+# https://gohugo.io/getting-started/configuration-markup/#configure-markup
+# hugo 才能按预期显示换行
+hardWraps = true
