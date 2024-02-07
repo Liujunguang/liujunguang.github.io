@@ -2,7 +2,7 @@
 title = 'Hello world'
 date = 2024-01-14T02:59:55+08:00
 # 默认 hugo new 都会打上 draft = true，hugo 发布时默认不会发布，需要删掉或改成 false
-draft = false
+draft = true
 # 考前的权重
 weight = 1
 +++

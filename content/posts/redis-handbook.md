@@ -23,9 +23,8 @@ cd /data/redis
 wget -O 'redis.conf' 'http://download.redis.io/redis-stable/redis.conf'
 ```
 
-2. 修改配置
+2. 修改 `redis.conf` 默认配置
 ```text
-# 修改默认配置
 #注释掉这部分，这是限制redis只能本地访问
 bind 127.0.0.1
 
