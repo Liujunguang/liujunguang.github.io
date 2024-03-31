@@ -1,5 +1,5 @@
 +++
-title = 'Cpp Virtual'
+title = 'C++中的虚函数、虚函数表、虚继承'
 date = 2024-03-31T18:37:21+08:00
 draft = false
 +++
