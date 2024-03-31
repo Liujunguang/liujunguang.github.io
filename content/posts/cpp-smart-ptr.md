@@ -74,7 +74,7 @@ int main() {
 
 ### `auto_ptr`
 
-C++98 提供，C++11 已经 [摒弃](智能指针.md#为何摒弃%20`auto_ptr`%20？) ，`unique_ptr` 用法与之一样。
+C++98 提供，C++11 已经 [摒弃](# 为何摒弃 `auto_ptr` ？) ，`unique_ptr` 用法与之一样。
 
 ### `unique_ptr`
 
@@ -145,6 +145,7 @@ pd = shared_ptr<double>(p_reg) // ok
 string vacation("I wandered lonely as a cloud.");
 shared_ptr<string> pvac(&vacation); // NO!
 ```
+pvac 过期时，会将 `delete` 运算符用于这个对象指针，这样是错误的！
 
 #### 3. `shared_ptr` 循环引用，造成内存泄露
 
