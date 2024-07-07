@@ -78,3 +78,71 @@ flush privileges;
 docker exec -it mysql env LANG=C.UTF-8 bash
 ```
 
+## 概念
+
+### 主键（primary key）
+
+一列（或一组列），能够唯一区分表中每个行。
+
+> `应该总是定义主键`：虽然允许不定义主键，但大多数数据库设计人员都应该保证创建的每个表都具有一个主键，以便后续都数据库操作和管理。
+
+表中任何列都可以作为主键，只要满足以下条件：
+
+- 任意行的值唯一
+- 不为 NULL
+
+主键通常定义在一列上，但也允许使用多个列作为主键，此时所有列的组合，必须是唯一的（单个列的值可以重复）
+
+### 通配符
+
+`mysql 中命令不区分大小写`
+
+使用通配符（*），返回表中所有列，返回列顺序，一般是在表定义时的顺序。
+```sql
+SELECT * FROM products;
+```
+
+> 一般除非确实需要表中的每个列，否则最好别使用 * 通配符，因为检索不需要的列通常会降低检索和应用程序的性能。
+
+### DISTINCT
+
+有时搜索出的表中数据可能重复：
+
+```sql
+SELECT vend_id FROM products;
+```
+
+![](/images/mysql/distinct-1.jpeg)
+
+使用 DISTINCT 限定只返回不同的值：
+
+```sql
+SELECT DISTINCT vend_id FROM products;
+```
+
+![](/images/mysql/distinct-2.jpeg)
+
+### LIMIT
+
+单个参数，代表限制不超过该行数。
+
+```sql
+# 返回 5 行
+SELECT prod_name FROM products LIMIT 5;
+```
+
+两个参数，第一个数为起始位置，第二个为要返回的行数：
+
+```sql
+# 返回行5（第6行）开始，一共返回5行
+SELECT prod_name FROM products LIMIT 5,5;
+```
+
+> 行0：表示第一行
+>行数不够时，MySQL 只返回它能返回的行数。
+
+### 使用数据处理函数
+
+
+
+
