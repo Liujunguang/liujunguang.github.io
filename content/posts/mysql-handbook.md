@@ -98,7 +98,7 @@ docker exec -it mysql env LANG=C.UTF-8 bash
 `mysql 中命令不区分大小写`
 
 使用通配符（*），返回表中所有列，返回列顺序，一般是在表定义时的顺序。
-```sql
+```shell script
 SELECT * FROM products;
 ```
 
@@ -108,7 +108,7 @@ SELECT * FROM products;
 
 有时搜索出的表中数据可能重复：
 
-```sql
+```shell script
 SELECT vend_id FROM products;
 ```
 
@@ -116,7 +116,7 @@ SELECT vend_id FROM products;
 
 使用 DISTINCT 限定只返回不同的值：
 
-```sql
+```shell script
 SELECT DISTINCT vend_id FROM products;
 ```
 
@@ -126,14 +126,14 @@ SELECT DISTINCT vend_id FROM products;
 
 单个参数，代表限制不超过该行数。
 
-```sql
+```shell script
 # 返回 5 行
 SELECT prod_name FROM products LIMIT 5;
 ```
 
 两个参数，第一个数为起始位置，第二个为要返回的行数：
 
-```sql
+```shell script
 # 返回行5（第6行）开始，一共返回5行
 SELECT prod_name FROM products LIMIT 5,5;
 ```
@@ -143,6 +143,120 @@ SELECT prod_name FROM products LIMIT 5,5;
 
 ### 使用数据处理函数
 
+#### 常用文本处理函数
 
+| 函数  | 说明  |
+| --- | --- |
+| Left() | 返回串左边的字符 |
+| Length() | 返回串的长度 |
+| Locate() | 找出串的一个子串 |
+| Lower() | 将串转换为小写 |
+| LTrim() | 去掉串左边的空格 |
+| Right() | 返回串右边的字符 |
+| RTrim() | 去掉串右边的空格 |
+| Soundex() | 返回串的SOUNDEX值 |
+| SubString() | 返回子串的字符 |
+| Upper() | 将串转换为大写 |
+
+> `SOUNDEX` 是一个将任何文本串转换为描述其语音表示的字母数字模式的算法。它匹配所有发音类似于该字符串的结果。
+
+#### 日期和时间处理函数
+
+| 函数            | 说明               |
+| ------------- | ---------------- |
+| AddDate()     | 增加一个日期（天、周等）     |
+| AddTime()     | 增加一个时间（时、分等）     |
+| CurDate()     | 返回当前日期           |
+| CurTime()     | 返回当前时间           |
+| Date()        | 返回日期时间的日期部分      |
+| DateDiff()    | 计算两个日期之差         |
+| Date_Add()    | 高度灵活的日期运算函数      |
+| Date_Format() | 返回一个格式化的日期或时间字符串 |
+| Day()         | 返回一个日期的天数部分      |
+| DayOfWeek()   | 对于一个日期，返回对应的星期几  |
+| Hour()        | 返回一个时间的小时部分      |
+| Minute()      | 返回一个时间的分钟部分      |
+| Month()       | 返回一个日期的月份部分      |
+| Now()         | 返回当前日期和时间        |
+| Second()      | 返回一个时间的秒部分       |
+| Time()        | 返回一个日期时间的时间部分    |
+| Year()        | 返回一个日期的年份部分      |
+
+#### 数值吹了函数
+
+| 函数     | 说明        |
+|:------:| --------- |
+| Abs()  | 返回一个数的绝对值 |
+| Cos()  | 返回一个角度的余弦 |
+| Exp()  | 返回一个数的指数值 |
+| Mod()  | 返回除操作的余数  |
+| Pi()   | 返回圆周率Pi   |
+| Rand() | 返回一个随机数   |
+| Sin()  | 返回一个角度的正弦 |
+| Sqrt() | 返回一个数的平方根 |
+| Tan()  | 返回一个角度的正切 |
+
+#### 聚合函数（aggregate function）
+
+| 函数      | 说明       |
+|:-------:| -------- |
+| AVG()   | 返回某列的平均值 |
+| COUNT() | 返回某列的行数  |
+| MAX()   | 返回某列的最大值 |
+| MIN()   | 返回某列的最小值 |
+| SUM()   | 返回某列值之合  |
+
+### 分组
+
+#### 分组 `GROUP BY`
+
+```shell script
+SELECT vend_id, COUNT(*) AS num_prods FROM products GROUP BY vend_id;
+```
+
++---------+-----------+
+| vend_id | num_prods |
++---------+-----------+
+|    1001 |         3 |
+|    1002 |         2 |
+|    1003 |         7 |
+|    1005 |         2 |
++---------+-----------+
+
+#### 过滤分组 `HAVING`
+
+HAVING 非常类似于 WHERE，所有类型的 WHERE 子句都可以用 HAVING 来替代。唯一的差别就是 WHERE 过滤行，而 `HAVING` 过滤分组。
+
+<br/>
+也可以理解成 `WHERE 在数据分组前进行过滤，HAVING 在分组之后进行过滤`。
+
+```shell script
+SELECT cust_id, COUNT(*) AS orders FROM orders GROUP BY cust_id HAVING COUNT(*) >= 2;
+```
+
++---------+--------+
+| cust_id | orders |
++---------+--------+
+|   10001 |      2 |
++---------+--------+
+
+列出具有2个（含）以上、价格为10（含）以上的产品的供应商。
+
+```shell script
+SELECT vend_id, COUNT(*) AS num_prods
+FROM products
+WHERE prod_price >= 10
+GROUP BY vend_id
+HAVING COUNT(*) >= 2;
+```
+
++---------+-----------+
+| vend_id | num_prods |
++---------+-----------+
+|    1003 |         4 |
+|    1005 |         2 |
++---------+-----------+
+
+<font color='red'>GROUP BY 的输出可能不是分组的顺序，所以如果要保证输出顺序，一般在使用 GROUP BY 子句时，也应该给出 ORDER BY，这是保证数据正确的唯一方法。</font>
 
 
