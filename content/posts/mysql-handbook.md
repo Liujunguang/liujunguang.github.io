@@ -182,7 +182,7 @@ SELECT prod_name FROM products LIMIT 5,5;
 | Time()        | 返回一个日期时间的时间部分    |
 | Year()        | 返回一个日期的年份部分      |
 
-#### 数值吹了函数
+#### 数值处理函数
 
 | 函数     | 说明        |
 |--------|-----------|
@@ -259,4 +259,13 @@ HAVING COUNT(*) >= 2;
 
 <font color='red'>GROUP BY 的输出可能不是分组的顺序，所以如果要保证输出顺序，一般在使用 GROUP BY 子句时，也应该给出 ORDER BY，这是保证数据正确的唯一方法。</font>
 
+## 联结表
+
+![](/images/mysql/join.png)
+
+## 全文本搜索
+
+> 注意: `InnoDB` 不支持全文本搜索。
+
+// TODO: 用到具体的再来补充
 
