@@ -53,7 +53,9 @@ mysql> select host, user from user;
 +-----------+------------------+
 5 rows in set (0.00 sec)
 ```
+
 说明：如果 `host` 为 '%'，则说明所有 IP 都可以 root 权限访问 mysql，修改只有特定 ip 可以远程 root 访问 mysql：
+
 ```shell script
 # xxxx 是对应的 ip，如果只希望本机访问，可以用 localhost
 # update user set host='xxxx' where user='root';
@@ -262,6 +264,99 @@ HAVING COUNT(*) >= 2;
 ## 联结表
 
 ![](/images/mysql/join.png)
+
+## 索引
+
+在数据库管理系统（DBMS）中，索引是提高数据检索速度的重要工具。通过使用索引，数据库可以快速找到所需的数据，而不必扫描整个表。
+索引属于 `存储引擎` 级别的概念，不同的存储引擎对索引的实现方式不同。
+
+### 索引类型
+
+MySQL 中索引类型包括：
+- B+ 树索引（默认）
+- Hash 索引
+- 全文索引
+- 空间索引
+
+其中 B+ 树索引大致可分为两类：
+- 聚簇索引
+- 非聚簇索引
+
+### 聚簇索引（Clustered Index）
+
+#### 定义
+
+一种数据存储方式，索引中键值的逻辑顺序与数据行的物理顺序相同，一个表只能有一个聚簇索引。
+（可以类比新华字典的拼音目录，A-X的顺序目录，实际字也是按 A-X 的顺序保存内容）
+
+#### 特性
+
+- 聚簇索引叶子节点保存的是行数据
+- 检索效率更高，范围查询、排序操作效率高
+- 如果主键可更改，由于数据按索引键排序，插入操作可能导致数据页的重新排列，性能开销大
+- 通常在主键上创建聚簇索引，因为主键的唯一性和非空特性适合
+- 一个表只能有一个聚簇索引
+
+#### 创建聚簇索引
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    BirthDate DATE,
+    HireDate DATE
+);
+
+-- 在 EmployeeID 列上创建聚集索引
+CREATE CLUSTERED INDEX IX_Employees_EmployeeID ON Employees (EmployeeID);
+```
+
+### 非聚簇索引（Non-clustered Index 或 Secondary Index）
+
+#### 定义
+
+索引的逻辑顺序，和磁盘上的物理存储顺序不同，一个表中可以拥有多个非聚簇索引。
+（可以类比新华字典的偏旁部首目录，实际字并不是按偏旁部首顺序存放）
+
+#### 特性
+
+- 辅助索引访问数据总是需要二次查找，查找效率相对较低
+- 辅助索引叶子节点保存的是主键值
+- 插入操作性能开销低，不影响数据表的物理存储顺序
+- 需要额外的存储空间来保存索引页
+- 一个表中可以拥有多个非聚簇索引
+
+#### 创建非聚簇索引
+
+```sql
+CREATE TABLE Employees (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    BirthDate DATE,
+    HireDate DATE
+);
+
+-- 在 LastName 列上创建非聚集索引
+CREATE NONCLUSTERED INDEX IX_Employees_LastName ON Employees (LastName);
+```
+
+### 索引（Index）和键（Key）的区别
+
+在实际使用中，MySQL 的 Key 和 Index 经常被混用
+
+#### Key 
+
+- 数据库的 `逻辑结构`
+- 如主键（PRIMARY KEY）、唯一键（UNIQUE KEY）、外键（FOREIGN KEY）
+- 包含 `约束` + `索引`
+
+#### Index
+
+- 数据库的 `物理结构`
+- 辅助查询，提高检索速度
+- 通常存储在
 
 ## 全文本搜索
 
