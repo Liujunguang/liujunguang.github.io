@@ -82,6 +82,13 @@ docker exec -it mysql env LANG=C.UTF-8 bash
 
 ## 概念
 
+### ACID  
+  
+- `原子性（Actomicity）`：事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都**不**执行  
+- `一致性（Consistent）`: 在事务开始和完成时，数据都必须保持一致状态。  这意味着所有相关的数据规则都必须应用于事务的修改，以操作完整性；事务结束时，所有的内部数据结构（如B+树索引、双向链表）也都必须是正确的
+- `隔离性（Isolation）`: 数据库系统提供一定的隔离机制，保证事务在不受外部并发操作影响的“独立”环境执行。这意味着事务处理过程中的中间状态对外部是不可见的，反之亦然。
+- `持久性（Durable）`: 事务完成后，它对于数据的修改是永久性的，即使出现系统故障也能够保持。
+
 ### 主键（primary key）
 
 一列（或一组列），能够唯一区分表中每个行。
@@ -363,6 +370,66 @@ CREATE NONCLUSTERED INDEX IX_Employees_LastName ON Employees (LastName);
 ## 全文本搜索
 
 > 注意: `InnoDB` 不支持全文本搜索。
+
+## 锁行锁表
+
+### 行锁（Row-Level Lock）
+
+**定义**
+
+行锁针对表中的单行或多行数据进行锁定，仅限制其他事务对锁定行的修改。InnoDB存储引擎通过索引实现行锁，若SQL语句未使用索引，行锁会退化为表锁。
+
+**特点**
+
+- 优点：并发高，允许多事务同时操作不同行，开销大、加锁慢
+- 缺点：管理开销大，可能引发死锁
+
+**场景**
+
+```sql
+START TRANSACTION;
+SELECT * FROM users WHERE id = 1 FOR UPDATE; -- 加行级排他锁
+UPDATE users SET name = 'Alice' WHERE id = 1;
+COMMIT;
+```
+
+### 表锁（Table-Level Lock）
+
+**定义**
+
+表锁锁定整个表，限制其他事务对表的所有读写操作。表锁响应的是非索引字段，即全表扫描，全表扫描时锁定整张表，sql 语句可以通过执行计划看出扫描了多少条记录。
+
+`MyISAM 引擎默认使用表锁，InnoDB 特定条件下（无索引、执行 DDL）触发表锁`。
+
+**特点**
+
+- 优点：实现简单、资源消耗低、加锁快、不会出现死锁，但锁冲突几率特别高
+- 缺点：并发性差，多个事务无法同时修改表
+
+**场景**
+
+- **显式表锁**：通过 `LOCK TABLES ... READ/WRITE` 手动加锁
+- **元数据锁（MDL）**：ALTER 修改表结构时阻塞 CRUD 操作
+- **数据备份**（通过全局锁或FLUSH TABLES WITH READ LOCK）
+- **全表扫描**
+
+```sql
+LOCK TABLES users READ; -- 加表级读锁
+UNLOCK TABLES;
+```
+
+### 锁机制优化
+
+#### 行锁优化
+
+- 高频查询字段添加索引
+- 缩小事务范围，尽快提交
+- 使用 `SHOW PROCESSLIST` 和 `INNODB_LOCKS` 监控锁状态
+
+#### 表锁优化
+
+- 避免在高峰期执行 DDL
+- MyISAM表优先使用 `READ LOCAL` 锁，允许并发插入
 
 // TODO: 用到具体的再来补充
 
